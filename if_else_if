@@ -1,0 +1,39 @@
+#!/bin/bash
+
+echo
+
+read -p "Enter package name: " SVC
+P=`systemctl is-active $SVC`
+
+echo
+
+if [ $P == active ]
+then
+	echo "$SVC service is in an active state"
+else
+	echo "$SVC service is not in an active state"
+	echo
+	echo "Starting $SVC serivce...."
+	sleep 1
+	echo
+	systemctl start $SVC &> /dev/null
+	if [ $P == active ]
+	then
+		echo "$SVC service started successfuly"
+	else
+		echo "$SVC package was not installed"
+		echo
+		echo "Installing $SVC package....."
+		sudo yum install $SVC -y &> /dev/null
+		systemctl start $SVC
+		echo	
+		if [ $? -eq 0 ]
+		then	
+			echo "$SVC service successfuly installed & started...."
+		else
+			echo "Error"
+		fi
+	fi
+fi
+echo
+

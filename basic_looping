@@ -1,0 +1,18 @@
+#!/bin/bash
+
+#USERS="Alpha Beta Gamma"
+for USR in $USERS
+do
+	echo
+	echo "Adding user $USR"
+	echo
+	sleep 3
+	useradd $USR
+	id $USR
+	echo
+	echo "User $USR added successfuly"
+	echo 
+	echo "#############################################"
+done
+
+tail -5 /etc/passwd
