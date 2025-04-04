@@ -1,0 +1,13 @@
+#!/bin/bash
+
+cd /etc/httpd/logs/
+sudo tar czvf httpd_log.tar.gz access_log error_log
+
+sudo cp -r httpd_log.tar.gz /tmp/httpd_logs/httpd_log.tar.gz
+cd /tmp/httpd_logs
+sudo aws s3 cp httpd_log.tar.gz s3://web01logshttpd/httpd_log-$(date +"%Y-%m-%d_%H-%M-%S").tar.gz
+
+sudo rm -rf /tmp/httpd_logs/*
+
+sudo rm -rf /etc/httpd/logs/httpd_log.tar.gz
+
